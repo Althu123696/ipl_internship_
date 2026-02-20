@@ -1,0 +1,12 @@
+groups:
+  - name: leakage-alerts
+    interval: 30s
+    rules:
+      - alert: DataLeakageDetected
+        expr: data_leakage_gap > 0.2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Possible data leakage detected"
+          description: "Train-test performance gap exceeded 0.2 for 2 minutes."

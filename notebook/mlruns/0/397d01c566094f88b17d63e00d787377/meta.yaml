@@ -1,0 +1,15 @@
+artifact_uri: file:///c:/Users/hp/Desktop/IPL_PROJECT/notebook/mlruns/0/397d01c566094f88b17d63e00d787377/artifacts
+end_time: 1771515532666
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 397d01c566094f88b17d63e00d787377
+run_name: likeable-slug-345
+run_uuid: 397d01c566094f88b17d63e00d787377
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1771515532648
+status: 4
+tags: []
+user_id: hp
