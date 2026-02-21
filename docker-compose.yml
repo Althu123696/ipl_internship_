@@ -1,4 +1,4 @@
-version: "3.9"
+
 
 services:
   fastapi:
@@ -36,6 +36,12 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana # persistent volume
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION=false
+    depends_on:
+      - prometheus
 
   streamlit:
     build:
