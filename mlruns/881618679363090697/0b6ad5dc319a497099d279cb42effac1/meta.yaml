@@ -4,8 +4,7 @@ entry_point_name: ''
 experiment_id: '881618679363090697'
 lifecycle_stage: active
 run_id: 0b6ad5dc319a497099d279cb42effac1
-run_name: beautiful-shrike-950
-run_uuid: 0b6ad5dc319a497099d279cb42effac1
+run_name: best model
 source_name: ''
 source_type: 4
 source_version: ''

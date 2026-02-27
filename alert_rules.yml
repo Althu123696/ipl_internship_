@@ -3,7 +3,7 @@ groups:
     interval: 30s
     rules:
       - alert: DataLeakageWarning
-        expr: data_leakage_gap > 0.2
+        expr: data_leakage_gap >0.2
         for: 2m
         labels:
           severity: warning

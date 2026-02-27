@@ -35,4 +35,10 @@ def root():
 def predict_runs(player: PlayerData):
     df = pd.DataFrame([player.dict(by_alias=True)])
     prediction = model.predict(df)[0]
-    return {"Predicted Runs": round(float(prediction),0)}
+    return {"Predicted Runs": round(float(prediction), 0)}
+
+# NEW: Endpoint to simulate leakage values
+@app.get("/simulate_leakage/{gap_value}")
+def simulate_leakage(gap_value: float):
+    leakage_metric.set(gap_value)
+    return {"message": f"Leakage gap set to {gap_value}"}

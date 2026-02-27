@@ -33,4 +33,4 @@ if st.button("Predict Runs"):
         else:
             st.error(f"Error {response.status_code}: {response.text}")
     except requests.exceptions.ConnectionError:
-        st.error("Could not connect to FastAPI. Is it running in Docker Compose on port 8000?")
+        st.error("Could not connect to FastAPI")
