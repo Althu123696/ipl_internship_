@@ -9,7 +9,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      
+      - ./model:/app/model
       - ./data:/app/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
