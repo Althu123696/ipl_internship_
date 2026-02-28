@@ -2,48 +2,51 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branchesjobs:
-  build:
-    runs-on: ubuntu code
-        uses: actions/checkoutx
-        uses: docker:
+    branches:
       - main
 
--latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Docker Build: Log in to GitHub
-        uses: docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-         /setup-buildx-action@v3
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name Container Registry/login-action@v3
-          username: ${{ secrets.GITHUB registry: ghcr.io: ${{ github.actor }}
-          password_TOKEN }}
-
-      push FastAPI image=$(echo "ghcr.io/${{ github.repository - name: Build and
+      - name: Build and push FastAPI image
         run: |
-          IMAGE_ID }}/fastapi:latest" | tr '[:upper:] echo "Building and pushing $IMAGE_ID' '[:lower:]')
-         "
-          docker build -t "$IMAGEfile .
-         _ID"
+          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/fastapi:latest" | tr '[:upper:]' '[:lower:]')
+          echo "Building and pushing $IMAGE_ID"
+          docker build -t "$IMAGE_ID" -f app/Dockerfile .
+          docker push "$IMAGE_ID"
 
-      - name: Build and push/${{ github.repository_ID" -f app/Docker docker push "$IMAGE Streamlit image
+      - name: Build and push Streamlit image
         run: |
-          IMAGE_ID=$(echo "ghcr.io }}/streamlit:latest' '[:lower:]')
-         " | tr '[:upper:] echo "Building and pushing $IMAGE_ID"
-          docker build -t "$IMAGE_ID" -f streamlit docker push "$IMAGE    runs-on: ubuntu: build
-    steps:
-      - name: Deploy/Dockerfile .
-         _ID"
+          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/streamlit:latest" | tr '[:upper:]' '[:lower:]')
+          echo "Building and pushing $IMAGE_ID"
+          docker build -t "$IMAGE_ID" -f streamlit/Dockerfile .
+          docker push "$IMAGE_ID"
 
   deploy:
--latest
-    needs via SSH
-        uses: appleboy/ssh-action@v0.1.          host: $.SERVER_USER }}
-          key: ${{ secrets.SERVER10
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
         with:
-{{ secrets.SERVER_HOST }}
-          username: ${{ secrets cd /path/to/project pull origin main
-            docker -d
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_KEY }}
+          script: |
+            cd /path/to/project
+            git pull origin main
+            docker compose up -d --build
