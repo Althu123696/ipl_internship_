@@ -1,52 +1,49 @@
+name: CI/CD Pipeline
 
 on:
   push:
-   
-name: CI/CD Pipeline branches: [ "main" ]
-
-jobs:
+    branchesjobs:
   build:
-    runs-on: ubuntu-latest
-    steps: actions/checkout: Set up Docker Build:
-      - name: Checkoutx
+    runs-on: ubuntu code
+        uses: actions/checkoutx
+        uses: docker:
+      - main
+
+-latest
+    steps:
+      - name: Checkout@v4
+
+      - name: Set up Docker Build: Log in to GitHub
         uses: docker
-        uses: docker code
-        uses@v4
-
-      - name/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
         with:
-         
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB - name: Build and/login-action@v3 registry: ghcr.io_TOKEN }}
+         /setup-buildx-action@v3
 
-      push FastAPI image          IMAGE_ID
-        run: |
-=$(echo "ghcr.io/${{ github.repository }}/fastapi:latest" | tr '[:upper:]' '[:lower:]')
-          echo "Building and"
-          docker pushing $IMAGE_ID_ID" -f app/Docker build -t "$IMAGEfile .
-         : Build and push
-        run: |
- docker push "$IMAGE_ID"
+      - name Container Registry/login-action@v3
+          username: ${{ secrets.GITHUB registry: ghcr.io: ${{ github.actor }}
+          password_TOKEN }}
 
-      - name Streamlit image          IMAGE_ID=$(echo "ghcr.io" | tr '[:upper:]' '[:lower:]')
-         /${{ github.repository }}/streamlit:latest echo "Building and"
-          docker pushing $IMAGE_ID build -t "$IMAGE_ID" -f streamlit/Dockerfile .
-          docker push "$IMAGE-latest
-    needs:
-      - name: Deploy_ID"
+      push FastAPI image=$(echo "ghcr.io/${{ github.repository - name: Build and
+        run: |
+          IMAGE_ID }}/fastapi:latest" | tr '[:upper:] echo "Building and pushing $IMAGE_ID' '[:lower:]')
+         "
+          docker build -t "$IMAGEfile .
+         _ID"
+
+      - name: Build and push/${{ github.repository_ID" -f app/Docker docker push "$IMAGE Streamlit image
+        run: |
+          IMAGE_ID=$(echo "ghcr.io }}/streamlit:latest' '[:lower:]')
+         " | tr '[:upper:] echo "Building and pushing $IMAGE_ID"
+          docker build -t "$IMAGE_ID" -f streamlit docker push "$IMAGE    runs-on: ubuntu: build
+    steps:
+      - name: Deploy/Dockerfile .
+         _ID"
 
   deploy:
- uses: appleboy/ssh-action@v0.1.          host: $ username: ${{ secrets    runs-on: ubuntu: build
-    steps via SSH
-       10
+-latest
+    needs via SSH
+        uses: appleboy/ssh-action@v0.1.          host: $.SERVER_USER }}
+          key: ${{ secrets.SERVER10
         with:
 {{ secrets.SERVER_HOST }}
-         _SSH_KEY }}
-          script: |
-           .SERVER_USER }}
- cd /path/to/project
-            git pull origin main-compose pull
-            docker-compose up          key: ${{ secrets.SERVER
+          username: ${{ secrets cd /path/to/project pull origin main
             docker -d
