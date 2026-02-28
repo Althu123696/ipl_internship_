@@ -9,10 +9,27 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./model:/app/model
+      
       - ./data:/app/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: ./streamlit/Dockerfile
+    image: ghcr.io/${GITHUB_REPOSITORY}/streamlit:latest
+    ports:
+      - "8501:8501"
+    depends_on:
+      - fastapi
+    volumes:
+      - ./data:/app/data   # optional, if Streamlit needs datasets
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -23,7 +40,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./mlruns:/mlruns
+      - ./data/mlruns:/mlruns   # keep experiment tracking persistent
     environment:
       - MLFLOW_ALLOW_ORIGIN=*
       - MLFLOW_SERVER_HOST=mlflow
@@ -61,21 +78,6 @@ services:
       - prometheus
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/login"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  streamlit:
-    build:
-      context: .
-      dockerfile: ./streamlit/Dockerfile
-    image: ghcr.io/${GITHUB_REPOSITORY}/streamlit:latest
-    ports:
-      - "8501:8501"
-    depends_on:
-      - fastapi
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8501"]
       interval: 30s
       timeout: 10s
       retries: 3

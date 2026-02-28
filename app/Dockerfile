@@ -8,7 +8,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy FastAPI app code
 COPY app/ /app
 
-# Copy models from project root
 COPY model/ /app/model
 
 EXPOSE 8000
