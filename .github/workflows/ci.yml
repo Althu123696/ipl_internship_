@@ -1,50 +1,52 @@
-name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+   
+name: CI/CD Pipeline branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker@v3
-
-      - name: Log in to GitHub/setup-buildx-action Container Registry/login-action@v3
+    steps: actions/checkout: Set up Docker Build:
+      - name: Checkoutx
         uses: docker
+        uses: docker code
+        uses@v4
+
+      - name/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
         with:
-          registry: ghcr.io
-          username }}
-          password: ${{ github.actor: ${{ secrets.GITHUB_TOKEN }}
+         
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB - name: Build and/login-action@v3 registry: ghcr.io_TOKEN }}
 
-      - name: Build and push FastAPI image
+      push FastAPI image          IMAGE_ID
         run: |
-          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/fastapi:latest" | tr '[:upper:]/Dockerfile .
-         ' '[:lower:]')
-          docker build -t $IMAGE_ID -f app docker push $IMAGE_ID
+=$(echo "ghcr.io/${{ github.repository }}/fastapi:latest" | tr '[:upper:]' '[:lower:]')
+          echo "Building and"
+          docker pushing $IMAGE_ID_ID" -f app/Docker build -t "$IMAGEfile .
+         : Build and push
+        run: |
+ docker push "$IMAGE_ID"
 
-      - name: Build and push Streamlit image
-        run: |
-          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/streamlit:latest $IMAGE_ID -f stream" | tr '[:upper:]          docker' '[:lower:]')
-          docker build -tlit/Dockerfile .
- push $IMAGE_ID
+      - name Streamlit image          IMAGE_ID=$(echo "ghcr.io" | tr '[:upper:]' '[:lower:]')
+         /${{ github.repository }}/streamlit:latest echo "Building and"
+          docker pushing $IMAGE_ID build -t "$IMAGE_ID" -f streamlit/Dockerfile .
+          docker push "$IMAGE-latest
+    needs:
+      - name: Deploy_ID"
 
   deploy:
-    runs
-    steps:
-     -on: ubuntu-latest
-    needs: build - name: Deploy via SSH
-        uses: appleboy/ssh-action with:
-         .SERVER_HOST }}
-: ${{ secrets.SERVER@v0.1.10
-       _USER }}
-         : |
-            cd
-            git pull origin main
-            docker host: ${{ secrets          username key: ${{ secrets.SERVER_SSH_KEY }}
-          script /path/to/projectFastAPI** and **-compose pull
-            docker-compose up -d
+ uses: appleboy/ssh-action@v0.1.          host: $ username: ${{ secrets    runs-on: ubuntu: build
+    steps via SSH
+       10
+        with:
+{{ secrets.SERVER_HOST }}
+         _SSH_KEY }}
+          script: |
+           .SERVER_USER }}
+ cd /path/to/project
+            git pull origin main-compose pull
+            docker-compose up          key: ${{ secrets.SERVER
+            docker -d
