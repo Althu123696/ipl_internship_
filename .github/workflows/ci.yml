@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write   # <-- critical for GHCR push
+      packages: write   
 
     steps:
       - name: Checkout code
