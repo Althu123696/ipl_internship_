@@ -24,17 +24,15 @@ jobs:
 
       - name: Build and push FastAPI image
         run: |
-          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/fastapi:latest" | tr '[:upper:]' '[:lower:]')
+          IMAGE_ID="ghcr.io/${{ github.repository,, }}/fastapi:latest"
           echo "Building and pushing $IMAGE_ID"
-          docker build -t "$IMAGE_ID" -f app/Dockerfile .
-          docker push "$IMAGE_ID"
+          docker buildx build --push -t "$IMAGE_ID" -f app/Dockerfile .
 
       - name: Build and push Streamlit image
         run: |
-          IMAGE_ID=$(echo "ghcr.io/${{ github.repository }}/streamlit:latest" | tr '[:upper:]' '[:lower:]')
+          IMAGE_ID="ghcr.io/${{ github.repository,, }}/streamlit:latest"
           echo "Building and pushing $IMAGE_ID"
-          docker build -t "$IMAGE_ID" -f streamlit/Dockerfile .
-          docker push "$IMAGE_ID"
+          docker buildx build --push -t "$IMAGE_ID" -f streamlit/Dockerfile .
 
   deploy:
     runs-on: ubuntu-latest
