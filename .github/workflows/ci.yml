@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write   
 
     steps:
       - name: Checkout code
@@ -23,8 +20,8 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: althu123696
+          password: ${{ secrets.GHCR_PAT }}
 
       - name: Build and push FastAPI image
         run: |
@@ -51,4 +48,6 @@ jobs:
           script: |
             cd /path/to/project
             git pull origin main
+            # Make sure your server is logged in to GHCR with the same PAT
+            echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u althu123696 --password-stdin
             docker compose up -d --build
